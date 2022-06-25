@@ -1,11 +1,7 @@
 <template>
   <div class="cardContainer" :style="status === 'closed' ? 'background-color:red' : 'background-color:blue'">
     <span id="title" @click="handleShowDescrition">{{ title }}</span>
-    <span
-      class="description"
-      v-if="showDescription"
-      >{{ description }}</span
-    >
+    <span class="description" v-if="showDescription">{{ description }}</span>
     <div>
       <span>From {{ dateStart }}</span>
       <span>to {{ dateEnd }}</span>
@@ -22,8 +18,7 @@ export default {
     title: String,
     description: String,
     start: Date,
-    end: Date,
-    closed: Boolean,
+    end: Date
   },
   data() {
     return {
@@ -56,6 +51,7 @@ export default {
   padding: 20px 0;
   font-size: 0.9rem;
 }
+
 .cardContainer:hover {
   -webkit-box-shadow: -5px 5px 15px green, -5px -5px 5px blue, 5px -5px 5px red;
 
@@ -65,31 +61,38 @@ export default {
     -5px -5px 5px blue, 5px -5px 5px red;
   transition: 1s;
 }
+
 .description {
   padding: 10px;
   display: flex;
   overflow-y: auto;
 }
+
 ::-webkit-scrollbar {
   width: 2px;
 }
+
 ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0);
   border-radius: 2px;
 }
+
 ::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.9);
   border-radius: 10px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.5);
 }
+
 .cardContainer #title {
   background-color: rgba(0, 0, 0, 0.5);
   padding: 10px 0;
   cursor: pointer;
   font-weight: bold;
 }
+
 .cardContainer div {
   display: flex;
   flex-direction: column;

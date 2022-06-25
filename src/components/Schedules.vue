@@ -1,27 +1,29 @@
+<script>
+import Card from "./Card.vue";
+import { useStore } from 'vuex'
+import { reactive, computed } from 'vue'
+export default {
+
+  components: { Card },
+  name: "Schedules",
+  setup() {
+    const store = useStore();
+    const schedules = computed(() => store.state.schedules);
+    console.log(schedules)
+    return {
+      schedules
+    }
+  }
+}
+</script>
 <template>
   <div class="schedulesContainer">
-    <div v-for="item of schedules" :key="item.id">
-      <Card
-        :title="item.title"
-        :description="item.description"
-        :start="item.start"
-        :end="item.end"
-        :closed="item.closed"
-      />
+    <div v-for="(item, index ) in schedules" :key="index">
+      <Card :title="item.title" :description="item.description" :start="item.start" :end="item.end" />
     </div>
   </div>
 </template>
 
-<script>
-import Card from "./Card.vue";
-export default {
-  components: { Card },
-  name: "Schedules",
-  props: {
-    schedules: [],
-  },
-};
-</script>
 
 <style scoped>
 .schedulesContainer {

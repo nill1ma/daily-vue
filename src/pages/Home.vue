@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref } from "vue";
+import { onUpdated, reactive, ref } from "vue";
 import Header from "../components/Header.vue";
 import Schedules from "../components/Schedules.vue";
 import SchedulesSerice from "../services/schedules";
@@ -8,53 +8,29 @@ import { checkStatus } from "../util";
 components: {
   Header, Schedules;
 }
-
-const data = reactive({
-  schedule: {
-    id: String,
-    title: String,
-    description: String,
-    start: Date,
-    end: Date,
-    status: "",
-  },
-
-  schedules: [],
-});
 const showHeader = ref(false);
-
-function getSchedules() {
-  data.schedules = SchedulesSerice.get();
-}
 
 function handleShowHeader() {
   showHeader.value = !this.showHeader;
 }
-function setSchedule(key, value) {
-  data.schedule[key] = value;
-}
-function saveSchedule() {
-  data.schedule.status = checkStatus(data.schedule.start, data.schedule.end);
-  SchedulesSerice.save(data.schedule);
-  getSchedules();
-}
-function applyStatus() {
-  const state = data.schedules;
-  return state?.map((d) => {
-    if (d.status === 'closed') return d;
-    d.status = checkStatus(d.start, d.end);
-    const index = data.schedules.findIndex((s) => s.id === d.id);
-    data.schedules[index] = d;
-    return d;
-  });
-}
-
-mounted: {
-  getSchedules();
-  setInterval(() => {
-    applyStatus();
-  }, 1000);
-}
+// function setSchedule(key, value) {
+//   data.schedule[key] = value;
+// }
+// function saveSchedule() {
+//   data.schedule.status = checkStatus(data.schedule.start, data.schedule.end);
+//   SchedulesSerice.save(data.schedule);
+// }
+// function applyStatus() {
+//   const state = data.schedules;
+//   return state?.map((d) => {
+//     if (d.status === 'closed') return d;
+//     d.status = checkStatus(d.start, d.end);
+//     const index = data.schedules.findIndex((s) => s.id === d.id);
+//     data.schedules[index] = d;
+//     return d;
+//   });
+//   console.log('Passing here')
+// }
 </script>
 <template>
   <div class="container">
@@ -65,9 +41,9 @@ mounted: {
       </button>
     </header>
     <div class="header" v-show="showHeader">
-      <Header @setSchedule="setSchedule" @saveSchedule="saveSchedule" />
+      <Header />
     </div>
-    <Schedules :schedules="data.schedules" />
+    <Schedules />
   </div>
 </template>
 
